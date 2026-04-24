@@ -1,0 +1,15 @@
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+pydantic==2.13.0
+google-genai==1.64.0
+PyPDF2==3.0.1
+pdfminer.six==20231228
+python-pptx==0.6.23
+python-dotenv==1.0.1
+httpx==0.28.1
+sqlalchemy==2.0.30
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1
+python-jose[cryptography]==3.3.0
+aiosqlite==0.20.0
