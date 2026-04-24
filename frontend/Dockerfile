@@ -1,10 +1,19 @@
-FROM node:20-slim
-
+FROM node:20-slim AS builder
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install
-
 COPY . .
+# Set the backend URL during build if needed, or use environment variables
+RUN npm run build
 
-CMD ["npm", "run", "dev"]
+FROM node:20-slim
+WORKDIR /app
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/node_modules ./node_modules
+
+EXPOSE 8080
+ENV PORT 8080
+
+CMD ["sh", "-c", "npm start -- -p ${PORT:-8080}"]
