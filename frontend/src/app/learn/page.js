@@ -75,9 +75,9 @@ export default function LearnPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {activeTab === 'summary' && doc.raw_text && <SummaryPanel rawText={doc.raw_text} />}
-            {activeTab === 'topics' && doc.raw_text && <TopicsPanel rawText={doc.raw_text} />}
-            {activeTab === 'quiz' && doc.raw_text && <QuizPanel rawText={doc.raw_text} />}
+          {activeTab === 'summary' && doc.raw_text && <SummaryPanel rawText={doc.raw_text} docId={doc.id} />}
+          {activeTab === 'topics' && doc.raw_text && <TopicsPanel rawText={doc.raw_text} docId={doc.id} />}
+          {activeTab === 'quiz' && doc.raw_text && <QuizPanel rawText={doc.raw_text} />}
           </motion.div>
         </div>
 

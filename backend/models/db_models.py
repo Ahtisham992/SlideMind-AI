@@ -24,4 +24,8 @@ class Document(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
     user_id = Column(Integer, ForeignKey("users.id"))
 
+    # AI cache columns
+    summary_cache = Column(Text, nullable=True)   # JSON string
+    topics_cache = Column(Text, nullable=True)     # JSON string
+
     owner = relationship("User", back_populates="documents")

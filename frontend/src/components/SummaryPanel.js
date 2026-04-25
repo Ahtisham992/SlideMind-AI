@@ -5,7 +5,7 @@ import { aiApi } from '../lib/api'
 import { Sparkles, CheckCircle, Loader2, AlertCircle, Brain } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-export default function SummaryPanel({ rawText }) {
+export default function SummaryPanel({ rawText, docId }) {
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -25,7 +25,7 @@ export default function SummaryPanel({ rawText }) {
       }
 
       try {
-        const response = await aiApi.summarize(rawText)
+        const response = await aiApi.summarize(rawText, 'standard', docId)
         sessionStorage.setItem(`summary_${rawText.length}`, JSON.stringify(response))
         setData(response)
       } catch (err) {

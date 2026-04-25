@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import UploadZone from '../../components/UploadZone'
 import { motion } from 'framer-motion'
-import { Sparkles, History, FileText, ArrowRight, Loader2 } from 'lucide-react'
+import { Sparkles, History, FileText, ArrowRight, Loader2, Trash2 } from 'lucide-react'
 import { documentApi } from '../../lib/api'
 import { useAuth } from '../../context/AuthContext'
+import toast from 'react-hot-toast'
 
 export default function UploadPage() {
   const router = useRouter()
@@ -61,7 +62,7 @@ export default function UploadPage() {
 
   return (
     <div className="max-w-4xl mx-auto py-20 px-6">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-center mb-16"
@@ -75,7 +76,7 @@ export default function UploadPage() {
           Upload your lecture slides and let SlideMind AI weave its magic.
         </p>
       </motion.div>
-      
+
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -89,7 +90,7 @@ export default function UploadPage() {
           <Loader2 className="w-8 h-8 animate-spin text-slate-200" />
         </div>
       ) : history.length > 0 && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
@@ -99,15 +100,14 @@ export default function UploadPage() {
             <History className="w-5 h-5" />
             <h3 className="font-display font-bold uppercase tracking-widest text-xs">Recent Documents</h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {history.map((item) => (
-              <div 
-                key={item.id}
-                onClick={() => handleHistoryClick(item)}
-                className="glass-card p-6 cursor-pointer hover:border-brand-500/20 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
-              >
-                <div className="flex items-center gap-4">
+              <div key={item.id} className="glass-card p-6 hover:border-brand-500/20 group transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative">
+                <div
+                  className="flex items-center gap-4 cursor-pointer"
+                  onClick={() => handleHistoryClick(item)}
+                >
                   <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-slate-400 group-hover:text-brand-600 group-hover:bg-brand-50 transition-colors shadow-sm">
                     <FileText className="w-6 h-6" />
                   </div>
@@ -118,8 +118,28 @@ export default function UploadPage() {
                     <p className="text-xs text-slate-400 font-body font-bold">
                       {item.total_slides} slides • {new Date(item.created_at).toLocaleDateString()}
                     </p>
+                    {item.summary_cache && (
+                      <span className="text-[10px] text-emerald-500 font-bold uppercase tracking-wider">✓ AI cached</span>
+                    )}
                   </div>
                 </div>
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    if (!confirm('Delete this lecture from history?')) return
+                    try {
+                      await documentApi.delete(item.id)
+                      setHistory(prev => prev.filter(h => h.id !== item.id))
+                      toast.success('Lecture deleted.')
+                    } catch {
+                      toast.error('Failed to delete.')
+                    }
+                  }}
+                  className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all opacity-0 group-hover:opacity-100"
+                  title="Delete"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
               </div>
             ))}
           </div>

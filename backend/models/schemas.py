@@ -120,6 +120,12 @@ class DocumentInfo(BaseModel):
     raw_text: str
     total_slides: int
     created_at: datetime.datetime
+    summary_cache: Optional[str] = None
+    topics_cache: Optional[str] = None
 
     class Config:
         from_attributes = True
+
+class DeleteResponse(BaseModel):
+    message: str
+    id: int
