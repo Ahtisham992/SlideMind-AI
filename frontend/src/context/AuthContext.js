@@ -23,7 +23,8 @@ export function AuthProvider({ children }) {
 
   const fetchUser = async (token) => {
     try {
-      const response = await axios.get('http://localhost:8000/api/auth/me', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://slidemind-api-703383698921.us-central1.run.app';
+      const response = await axios.get(`${apiUrl}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUser(response.data);
@@ -37,11 +38,12 @@ export function AuthProvider({ children }) {
   };
 
   const login = async (email, password) => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://slidemind-api-703383698921.us-central1.run.app';
     const formData = new FormData();
     formData.append('username', email);
     formData.append('password', password);
-
-    const response = await axios.post('http://localhost:8000/api/auth/login', formData);
+    
+    const response = await axios.post(`${apiUrl}/api/auth/login`, formData);
     const { access_token } = response.data;
     localStorage.setItem('token', access_token);
     await fetchUser(access_token);
@@ -49,7 +51,8 @@ export function AuthProvider({ children }) {
   };
 
   const signup = async (email, password, fullName) => {
-    await axios.post('http://localhost:8000/api/auth/signup', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://slidemind-api-703383698921.us-central1.run.app';
+    await axios.post(`${apiUrl}/api/auth/signup`, {
       email,
       password,
       full_name: fullName

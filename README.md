@@ -75,13 +75,19 @@ npm run dev
 
 ---
 
-## 🐳 Docker Deployment
+## 🚀 Cloud Deployment
 
-The project is containerized for easy deployment. Run the entire stack with a single command:
+SlideMind AI is optimized for **Google Cloud Run**, providing a serverless, scalable infrastructure.
 
-```bash
-docker-compose up --build
-```
+### **Production Architecture**
+- **Backend**: FastAPI containerized and served on Cloud Run.
+- **Frontend**: Next.js production-built and served as a high-performance web service.
+- **Image Registry**: Google Artifact Registry.
+- **CI/CD**: Cloud Build for automated containerization.
+
+### **Live URLS**
+- **UI**: [https://slidemind-ui-703383698921.us-central1.run.app](https://slidemind-ui-703383698921.us-central1.run.app)
+- **API**: [https://slidemind-api-703383698921.us-central1.run.app](https://slidemind-api-703383698921.us-central1.run.app)
 
 ---
 
@@ -97,5 +103,4 @@ SlideMind AI features a custom-designed branding system:
 This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
-
-Developed with ❤️ for the future of learning.
+**Crafted with 🧠 by [Muhammad Ahtisham](https://github.com/Ahtisham992)**

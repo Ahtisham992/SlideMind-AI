@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://slidemind-api-703383698921.us-central1.run.app',
   headers: {
     'Content-Type': 'application/json',
   },

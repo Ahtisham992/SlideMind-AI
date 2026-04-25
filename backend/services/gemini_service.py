@@ -4,16 +4,15 @@ from google import genai
 from typing import List, Optional
 
 def get_client():
-    """Get configured Gemini client."""
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable is not set")
-    return genai.Client(api_key=api_key)
+    """Get configured Gemini client using Vertex AI."""
+    project_id = os.getenv("GOOGLE_CLOUD_PROJECT", "slidemindai")
+    location = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+    
+    # When vertexai=True, it uses your Google Cloud credentials instead of an API Key
+    return genai.Client(vertexai=True, project=project_id, location=location)
 
 MODELS = [
-    'gemini-2.5-flash-lite',
-    'gemini-2.5-flash',
-    'gemini-2.0-flash',
+    'gemini-1.5-flash',
     'gemini-1.5-pro'
 ]
 
